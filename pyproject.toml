@@ -50,10 +50,11 @@ build-backend = "uv_build"
 
 # --- uv ---------------------------------------------------------------------
 [tool.uv]
-# Supply-chain cooldown: resolution ignores anything published to PyPI after
-# this timestamp (now minus 7 days). Move it forward only when deliberately
-# updating dependencies.
-exclude-newer = "2026-08-12T00:00:00Z"
+# Supply-chain cooldown: resolution ignores anything published to PyPI in
+# the last 7 days (rolling), so a freshly poisoned release can't reach the
+# lockfile the day it lands. Declared here so CI and contributors resolve
+# identically without machine-level configuration.
+exclude-newer = "P7D"
 
 # PyPI is the ONLY permitted index (supply-chain policy).
 [[tool.uv.index]]
