@@ -1,9 +1,11 @@
-"""Paths: pathlib treats paths as objects, not string puzzles.
+"""Paths: pathlib treats paths as objects, not strings.
 
-``os.path`` works on strings, so every operation is a free function and
-every join is an opportunity for a separator bug. ``pathlib.Path`` puts
-the operations on the object: joining is ``/``, reading is a method,
-and globbing needs no manual recursion.
+To be fair to ``os.path``: it is scrupulously cross-platform. The cost
+is that it works on plain strings — every operation is a free function,
+results carry no path behaviour of their own, and a directory walk is
+an imperative nested loop. ``pathlib.Path`` puts the operations on the
+object: joining is ``/``, reading is a method, and globbing needs no
+manual recursion.
 """
 
 import os

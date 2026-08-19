@@ -6,7 +6,7 @@ a type checker can verify it without anyone inheriting anything.
 
 ## The idiom
 
-```python
+```python title="src/pythonic/protocols.py"
 --8<-- "src/pythonic/protocols.py:protocol"
 ```
 
@@ -17,7 +17,7 @@ enforced, not aspirational.
 
 ## Implementations that never heard of the protocol
 
-```python
+```python title="src/pythonic/protocols.py"
 --8<-- "src/pythonic/protocols.py:shapes"
 ```
 

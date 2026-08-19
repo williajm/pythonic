@@ -7,7 +7,7 @@ different job entirely.
 
 ## The habit — and the bug we didn't know we'd written
 
-```python
+```python title="src/pythonic/strings.py"
 --8<-- "src/pythonic/strings.py:unpythonic"
 ```
 
@@ -25,7 +25,7 @@ lesson.
 
 ## The idiom
 
-```python
+```python title="src/pythonic/strings.py"
 --8<-- "src/pythonic/strings.py:pythonic"
 ```
 
@@ -36,7 +36,7 @@ for the width.
 
 ## New in 3.14: t-strings
 
-```python
+```python title="src/pythonic/strings.py"
 --8<-- "src/pythonic/strings.py:tstrings"
 ```
 

@@ -24,6 +24,14 @@ class PointByHand:
     and every line is a place for the next edit to introduce a bug
     (add a field, forget to update ``__eq__``, and equality silently
     lies).
+
+    There is also a trap already sprung: this class is hashable *and*
+    mutable. Mutate a point after storing it in a set or dict and it
+    becomes unfindable — its hash changed while the container filed it
+    under the old one (tested). The generated version refuses to make
+    that mistake: a plain ``@dataclass`` sets ``__hash__`` to None, and
+    only ``frozen=True`` buys hashability back — by removing the
+    mutability that made it dangerous.
     """
 
     def __init__(self, x: float, y: float) -> None:
@@ -47,7 +55,11 @@ class PointByHand:
         return (self.x, self.y) == (other.x, other.y)
 
     def __hash__(self) -> int:
-        """Hash the same fields ``__eq__`` compares — easy to forget."""
+        """Hash the same fields ``__eq__`` compares — easy to forget.
+
+        Also the wrong call entirely on a mutable class: see the class
+        docstring for the set-membership trap it creates.
+        """
         return hash((self.x, self.y))
 
 

@@ -6,7 +6,7 @@ a closed union of dataclasses, it gives Python honest sum types.
 
 ## Sum types, checked for exhaustiveness
 
-```python
+```python title="src/pythonic/pattern_matching.py"
 --8<-- "src/pythonic/pattern_matching.py:commands"
 ```
 
@@ -17,7 +17,7 @@ the code ever runs. This repository's CI enforces exactly that.
 
 ## Matching on the shape of data
 
-```python
+```python title="src/pythonic/pattern_matching.py"
 --8<-- "src/pythonic/pattern_matching.py:shapes-of-data"
 ```
 

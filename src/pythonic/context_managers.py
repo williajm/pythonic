@@ -6,7 +6,7 @@ closing a file, releasing a lock, restoring state — belongs in one.
 """
 
 import time
-from collections.abc import Iterator
+from collections.abc import Iterator, MutableMapping
 from contextlib import contextmanager, suppress
 from pathlib import Path
 from types import TracebackType
@@ -86,25 +86,39 @@ class Timer:
 
 # --8<-- [start:contextlib]
 @contextmanager
-def extra_element[T](items: list[T], element: T) -> Iterator[list[T]]:
-    """Append an element for the duration of the block, then remove it.
+def temporarily_replaced[K, V](
+    mapping: MutableMapping[K, V], key: K, value: V
+) -> Iterator[None]:
+    """Replace one mapping entry for the duration of the block.
 
     ``@contextmanager`` turns a generator into a context manager: code
     before ``yield`` is setup, code in the ``finally`` is cleanup, and
     the ``finally`` guarantees the cleanup even when the block raises.
+    Ownership is unambiguous — whatever the block does elsewhere, this
+    manager restores *that key* to the value it held before.
+
+    Honesty note: the battle-hardened versions of this idea already
+    exist — ``unittest.mock.patch.dict`` and pytest's
+    ``monkeypatch.setitem``. This one shows the mechanics.
 
     Args:
-        items: The list to temporarily extend.
-        element: The element to append.
+        mapping: The mapping to modify in place.
+        key: The key whose value is temporarily replaced.
+        value: The replacement value.
 
     Yields:
-        The extended list, for use inside the block.
+        Nothing — the caller already holds the mapping.
+
+    Raises:
+        KeyError: If ``key`` is not already present (restoring "no
+            entry" is a different, subtler contract — see patch.dict).
     """
-    items.append(element)
+    original = mapping[key]
+    mapping[key] = value
     try:
-        yield items
+        yield
     finally:
-        items.pop()
+        mapping[key] = original
 
 
 def remove_if_present[T](items: list[T], value: T) -> None:

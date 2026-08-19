@@ -6,7 +6,7 @@ from the field declarations.
 
 ## The habit
 
-```python
+```python title="src/pythonic/records.py"
 --8<-- "src/pythonic/records.py:unpythonic"
 ```
 
@@ -14,9 +14,16 @@ The hand-written dunders *work* — the tests prove it. The objection is the
 maintenance contract: add a field and you must remember `__init__`,
 `__repr__`, `__eq__`, **and** `__hash__`, or equality silently lies.
 
+And one trap in this class has already sprung: it is hashable **and**
+mutable. Store a point in a set, mutate it, and it becomes unfindable —
+the set filed it under the old hash. A test pins that failure down. The
+generated version refuses to make this mistake: a plain `@dataclass` sets
+`__hash__` to `None`, and only `frozen=True` buys hashability back — by
+removing the mutability that made it dangerous.
+
 ## The idiom
 
-```python
+```python title="src/pythonic/records.py"
 --8<-- "src/pythonic/records.py:pythonic"
 ```
 
@@ -30,7 +37,7 @@ Two field declarations replace sixteen lines, and the extras are free:
 
 ## When you really do want a tuple
 
-```python
+```python title="src/pythonic/records.py"
 --8<-- "src/pythonic/records.py:namedtuple"
 ```
 

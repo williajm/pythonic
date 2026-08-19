@@ -8,8 +8,9 @@
 
 📖 **Read the site: [williajm.github.io/pythonic](https://williajm.github.io/pythonic/)**
 
-Ten short chapters, each contrasting a common habit with the pythonic
-alternative, on the latest stable Python (3.14) — comprehensions,
+Ten short chapters on the latest stable Python (3.14) — most of them
+setting a common habit against the pythonic alternative in code, all of
+them honest about the trade-offs: comprehensions,
 iteration, generators, context managers, EAFP, records, protocols,
 pattern matching, paths, and strings.
 

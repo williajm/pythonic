@@ -45,6 +45,16 @@ def test_receipt_line_custom_width() -> None:
     assert len(receipt_line("tea", 2.5, width=40)) == 40
 
 
+def test_receipt_line_width_is_a_floor_not_a_ceiling() -> None:
+    """Regression test for the review finding: format widths are minimums.
+
+    Oversize values expand the line rather than being truncated.
+    """
+    line = receipt_line("hand-thrown teapot, extra large", 12345.67, width=20)
+    assert len(line) > 20
+    assert line.endswith("12345.67")
+
+
 def test_redact_masks_interpolations() -> None:
     """The static text survives; the interpolated value does not."""
     name = "ada"

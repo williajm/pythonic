@@ -6,7 +6,7 @@ form is shorter, faster, and has no moving parts to get wrong.
 
 ## The habit
 
-```python
+```python title="src/pythonic/comprehensions.py"
 --8<-- "src/pythonic/comprehensions.py:unpythonic"
 ```
 
@@ -16,18 +16,19 @@ When the linter can name your habit, the language has a better idiom for it.
 
 ## The idiom
 
-```python
+```python title="src/pythonic/comprehensions.py"
 --8<-- "src/pythonic/comprehensions.py:pythonic"
 ```
 
-The test suite [proves both versions agree on every input](https://github.com/williajm/pythonic/blob/main/tests/test_comprehensions.py)
-(hypothesis generates the inputs). The objection to the first version was
+The test suite [checks that both versions agree across a battery of generated inputs](https://github.com/williajm/pythonic/blob/main/tests/test_comprehensions.py)
+(hypothesis invents the lists — sampled evidence, not a proof over an
+infinite domain). The objection to the first version was
 never correctness — it is that every extra line is a place for the next
 edit to introduce a bug.
 
 ## Dicts and sets too
 
-```python
+```python title="src/pythonic/comprehensions.py"
 --8<-- "src/pythonic/comprehensions.py:dict-set"
 ```
 
@@ -36,7 +37,7 @@ wins. The tests pin that behaviour down instead of pretending it away.
 
 ## No collection at all
 
-```python
+```python title="src/pythonic/comprehensions.py"
 --8<-- "src/pythonic/comprehensions.py:genexp"
 ```
 

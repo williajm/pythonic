@@ -5,7 +5,7 @@ Most index arithmetic in Python is a C habit wearing a snake costume. The
 
 ## The habit
 
-```python
+```python title="src/pythonic/iteration.py"
 --8<-- "src/pythonic/iteration.py:unpythonic"
 ```
 
@@ -15,13 +15,13 @@ iterable.
 
 ## Counting: enumerate
 
-```python
+```python title="src/pythonic/iteration.py"
 --8<-- "src/pythonic/iteration.py:enumerate"
 ```
 
 ## Pairing: zip, strictly
 
-```python
+```python title="src/pythonic/iteration.py"
 --8<-- "src/pythonic/iteration.py:zip"
 ```
 
@@ -33,7 +33,7 @@ asserts the `ValueError`.
 
 ## Unpacking: let the target mirror the data
 
-```python
+```python title="src/pythonic/iteration.py"
 --8<-- "src/pythonic/iteration.py:unpacking"
 ```
 

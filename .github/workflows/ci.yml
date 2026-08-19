@@ -49,8 +49,8 @@ jobs:
       - name: Tests with coverage (100% floor in pyproject)
         run: uv run pytest
 
-      - name: Export lockfile for audit
-        run: uv export --frozen --no-emit-project --output-file requirements-audit.txt
+      - name: Export lockfile for audit (all groups — docs deps deploy the site)
+        run: uv export --frozen --no-emit-project --all-groups --output-file requirements-audit.txt
 
       - name: pip-audit (known CVEs)
         run: uv run pip-audit --disable-pip --requirement requirements-audit.txt

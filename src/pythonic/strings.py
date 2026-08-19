@@ -65,10 +65,13 @@ def receipt_line(item: str, price: float, width: int = 30) -> str:
     Args:
         item: The item name, left-aligned.
         price: The price, right-aligned to two decimal places.
-        width: Total line width in characters.
+        width: Minimum line width in characters. Format-spec widths are
+            floors, not ceilings: values too big for their column expand
+            the line rather than truncating (tested).
 
     Returns:
-        A fixed-width line like ``"tea                       2.50"``.
+        A line at least ``width`` characters wide, like
+        ``"tea                       2.50"``.
     """
     return f"{item:<{width - 8}}{price:>8.2f}"
 

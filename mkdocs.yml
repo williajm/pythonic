@@ -12,14 +12,25 @@ strict: true
 
 theme:
   name: material
+  icon:
+    logo: material/language-python
+  # Literate-Python type system: grotesk display (extra.css), serif prose,
+  # JetBrains Mono code. Palette is custom-defined in extra.css.
+  font:
+    text: Source Serif 4
+    code: JetBrains Mono
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -28,8 +39,13 @@ theme:
     - navigation.footer
     - navigation.sections
 
+extra_css:
+  - stylesheets/extra.css
+
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true

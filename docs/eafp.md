@@ -8,7 +8,7 @@ second implementations drift.
 
 ## The habit — wrong in both directions
 
-```python
+```python title="src/pythonic/eafp.py"
 --8<-- "src/pythonic/eafp.py:lbyl"
 ```
 
@@ -22,7 +22,7 @@ The guard *looks* like safety. It is actually a second, worse parser.
 
 ## The idiom
 
-```python
+```python title="src/pythonic/eafp.py"
 --8<-- "src/pythonic/eafp.py:eafp"
 ```
 
@@ -30,7 +30,7 @@ There is exactly one authority on what `int` accepts: `int`.
 
 ## Missing keys, and the honest ending
 
-```python
+```python title="src/pythonic/eafp.py"
 --8<-- "src/pythonic/eafp.py:counter"
 ```
 

@@ -6,7 +6,7 @@ in memory, and infinite sequences become ordinary objects.
 
 ## The habit
 
-```python
+```python title="src/pythonic/generators.py"
 --8<-- "src/pythonic/generators.py:unpythonic"
 ```
 
@@ -16,18 +16,19 @@ of the *source*, not the size of the answer. And it needs that arbitrary
 
 ## The idiom
 
-```python
+```python title="src/pythonic/generators.py"
 --8<-- "src/pythonic/generators.py:pythonic"
 ```
 
 `squares()` is an *infinite sequence* in seven lines: state lives in the
-paused function frame. `take(5, squares())` computes exactly five squares
-and not one more — there is a test that proves the laziness, not just the
-values.
+paused function frame. `take(n, ...)` consumes exactly n items and not
+one more — and a test with a counting source verifies the *consumption*,
+not just the returned values, so that claim is measured rather than
+assumed.
 
 ## Lazy pipelines
 
-```python
+```python title="src/pythonic/generators.py"
 --8<-- "src/pythonic/generators.py:pipeline"
 ```
 

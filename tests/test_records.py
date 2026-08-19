@@ -21,6 +21,19 @@ def test_point_by_hand_compares_unequal_to_other_types() -> None:
     assert PointByHand(1.0, 2.0) != (1.0, 2.0)
 
 
+def test_point_by_hand_hash_trap_when_mutated() -> None:
+    """Regression test for the hashable-plus-mutable trap (review finding).
+
+    The set files the point under its original hash; after mutation,
+    probing with either the new value or the old one fails to find it.
+    """
+    point = PointByHand(1.0, 2.0)
+    seen = {point}
+    point.x = 9.0
+    assert PointByHand(9.0, 2.0) not in seen
+    assert PointByHand(1.0, 2.0) not in seen
+
+
 def test_dataclass_matches_hand_rolled_behaviour() -> None:
     """The generated dunders give the same equality and repr semantics."""
     point = Point(1.0, 2.0)

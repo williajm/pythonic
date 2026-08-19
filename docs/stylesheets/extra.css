@@ -1,0 +1,143 @@
+/* Pythonic site theme.
+ *
+ * Identity: paper + ink-navy + brass, literate serif prose under a
+ * grotesk display face, and the signature element — a provenance bar on
+ * every embedded snippet ("✓ tested in CI") — because the site's whole
+ * claim is that the code you read is the code the test suite runs.
+ * The test-green is reserved for that chip alone.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap");
+
+:root {
+  --pyx-display: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+}
+
+/* --- Palette: light ("default" scheme) -------------------------------- */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #16243a; /* ink navy — header, links */
+  --md-primary-fg-color--light: #2c3f5e;
+  --md-primary-fg-color--dark: #0f1a2b;
+  --md-accent-fg-color: #8f6400; /* brass — hover, focus */
+  --md-default-bg-color: #fafaf7; /* paper */
+  --pyx-chip-fg: #1e6b38;
+  --pyx-chip-bg: rgba(30, 122, 60, 0.11);
+}
+
+/* --- Palette: dark ("slate" scheme) ------------------------------------ */
+[data-md-color-scheme="slate"] {
+  --md-hue: 216; /* cool navy cast for the whole slate ramp */
+  --md-primary-fg-color: #0f1a2b;
+  --md-primary-fg-color--light: #2c3f5e;
+  --md-primary-fg-color--dark: #0a1220;
+  --md-accent-fg-color: #f2c14e; /* gold on dark */
+  --md-typeset-a-color: #e5b957; /* readable gold links */
+  --pyx-chip-fg: #8fd9a8;
+  --pyx-chip-bg: rgba(143, 217, 168, 0.13);
+}
+
+/* --- Type roles --------------------------------------------------------- */
+/* Headings and chrome take the display face; prose stays serif. */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  font-family: var(--pyx-display);
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h1,
+.md-typeset h2 {
+  font-weight: 700;
+}
+
+.md-header,
+.md-tabs,
+.md-nav,
+.md-footer,
+.md-typeset .md-button {
+  font-family: var(--pyx-display);
+}
+
+/* Serif body earns a touch more air. */
+.md-typeset {
+  line-height: 1.65;
+}
+
+/* --- Signature: snippet provenance -------------------------------------- */
+/* Every embedded snippet is titled with its true source path; the chip
+ * states the site's contract. Only titled (i.e. embedded-from-source)
+ * blocks get one — pasted, untested code would go uncertified. */
+.md-typeset .highlight span.filename {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75em;
+}
+
+.md-typeset .highlight span.filename::after {
+  content: "✓ tested in CI";
+  flex: none;
+  font-family: var(--pyx-display);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pyx-chip-fg);
+  background: var(--pyx-chip-bg);
+  border-radius: 2em;
+  padding: 0.18em 0.75em;
+}
+
+/* --- Home hero ----------------------------------------------------------- */
+.pyx-hero {
+  margin: 1.6rem 0 2.4rem;
+  padding-bottom: 2rem;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+}
+
+.pyx-hero__prompt {
+  font-family: var(--md-code-font-family);
+  font-size: 0.72rem;
+  color: var(--md-accent-fg-color);
+  margin-bottom: 0.2rem;
+}
+
+.md-typeset .pyx-hero h1 {
+  font-size: 2.6rem;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--md-default-fg-color);
+  margin: 0 0 0.9rem;
+}
+
+.pyx-hero__lede {
+  font-size: 0.9rem;
+  max-width: 36em;
+}
+
+.pyx-hero .md-button {
+  margin: 0.3rem 0.5rem 0 0;
+}
+
+@media screen and (max-width: 44em) {
+  .md-typeset .pyx-hero h1 {
+    font-size: 1.9rem;
+  }
+}
+
+/* --- "When not to" admonitions carry the brand's brass ------------------- */
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  border-color: var(--md-accent-fg-color);
+}
+
+.md-typeset .warning > .admonition-title {
+  background-color: color-mix(in srgb, var(--md-accent-fg-color) 10%, transparent);
+}
+
+.md-typeset .warning > .admonition-title::before {
+  background-color: var(--md-accent-fg-color);
+}

@@ -1,12 +1,14 @@
 # Paths
 
-`os.path` works on strings: every operation is a free function, every join
-is a separator bug waiting for a Windows machine. `pathlib.Path` puts the
-operations on the object.
+To be fair to `os.path`: it is scrupulously cross-platform, and
+`os.path.join` has never put a wrong separator anywhere. The real cost is
+that it works on plain strings — every operation is a free function, the
+results carry no path behaviour of their own, and a directory walk is an
+imperative nested loop. `pathlib.Path` puts the operations on the object.
 
 ## The habit
 
-```python
+```python title="src/pythonic/paths.py"
 --8<-- "src/pythonic/paths.py:unpythonic"
 ```
 
@@ -17,7 +19,7 @@ the idiom.
 
 ## The idiom
 
-```python
+```python title="src/pythonic/paths.py"
 --8<-- "src/pythonic/paths.py:pythonic"
 ```
 
@@ -27,7 +29,7 @@ the result.
 
 ## Joining, reading, and one deliberate keyword
 
-```python
+```python title="src/pythonic/paths.py"
 --8<-- "src/pythonic/paths.py:operations"
 ```
 

@@ -1,6 +1,7 @@
 """Tests for pythonic.generators — including proof of laziness."""
 
-from itertools import accumulate
+from collections.abc import Iterator
+from itertools import accumulate, count
 
 from pythonic.generators import (
     first_match,
@@ -19,6 +20,23 @@ def test_take_from_infinite_generator() -> None:
 def test_eager_and_lazy_agree() -> None:
     """The eager counter-example matches the lazy pipeline."""
     assert first_squares_unpythonic(10) == take(10, squares())
+
+
+def test_take_pulls_exactly_n_from_the_source() -> None:
+    """Regression test for the review finding: consumption, not just values.
+
+    A counting source proves take(3, ...) advances the iterator exactly
+    three times — no lookahead item is pulled and discarded.
+    """
+    pulled: list[int] = []
+
+    def counting_source() -> Iterator[int]:
+        for i in count():
+            pulled.append(i)
+            yield i
+
+    assert take(3, counting_source()) == [0, 1, 2]
+    assert pulled == [0, 1, 2]
 
 
 def test_take_stops_at_source_end() -> None:

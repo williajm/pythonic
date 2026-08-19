@@ -6,10 +6,10 @@ import pytest
 
 from pythonic.context_managers import (
     Timer,
-    extra_element,
     read_first_line,
     read_first_line_unpythonic,
     remove_if_present,
+    temporarily_replaced,
 )
 
 
@@ -43,21 +43,47 @@ def test_timer_records_even_when_block_raises() -> None:
     assert timer.elapsed > 0.0
 
 
-def test_extra_element_restores_list() -> None:
-    """The element exists inside the block and is gone after."""
-    items = [1, 2]
-    with extra_element(items, 3) as extended:
-        assert extended == [1, 2, 3]
-    assert items == [1, 2]
+def test_temporarily_replaced_swaps_and_restores() -> None:
+    """The entry is replaced inside the block and restored after."""
+    config = {"mode": "live"}
+    with temporarily_replaced(config, "mode", "test"):
+        assert config["mode"] == "test"
+    assert config["mode"] == "live"
 
 
-def test_extra_element_restores_on_exception() -> None:
-    """The finally clause pops even when the block raises."""
-    items = [1, 2]
+def test_temporarily_replaced_restores_on_exception() -> None:
+    """The finally clause restores even when the block raises."""
+    config = {"mode": "live"}
     boom = "boom"
-    with pytest.raises(RuntimeError, match=boom), extra_element(items, 3):
+    with (
+        pytest.raises(RuntimeError, match=boom),
+        temporarily_replaced(config, "mode", "test"),
+    ):
         raise RuntimeError(boom)
-    assert items == [1, 2]
+    assert config["mode"] == "live"
+
+
+def test_temporarily_replaced_owns_its_key_whatever_the_block_does() -> None:
+    """Regression test for the cleanup-ownership review finding.
+
+    The block may rewrite the managed key or grow the mapping; cleanup
+    still restores exactly that key and touches nothing else.
+    """
+    config = {"mode": "live", "retries": "3"}
+    with temporarily_replaced(config, "mode", "test"):
+        config["mode"] = "chaos"
+        config["added"] = "by the block"
+    assert config == {"mode": "live", "retries": "3", "added": "by the block"}
+
+
+def test_temporarily_replaced_requires_existing_key() -> None:
+    """Absent keys are rejected before the block runs, as documented."""
+    config: dict[str, str] = {}
+    with (
+        pytest.raises(KeyError, match="mode"),
+        temporarily_replaced(config, "mode", "test"),
+    ):
+        pytest.fail("the block must never run")
 
 
 def test_remove_if_present_removes() -> None:
