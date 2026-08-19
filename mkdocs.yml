@@ -1,0 +1,71 @@
+# The site embeds code straight out of src/ via pymdownx.snippets, so
+# every example shown is the exact code the test suite runs. strict mode
+# turns broken snippets or links into build failures.
+site_name: Pythonic
+site_description: "What makes Python great: honest, tested examples of pythonic code."
+site_url: https://williajm.github.io/pythonic/
+repo_url: https://github.com/williajm/pythonic
+repo_name: williajm/pythonic
+edit_uri: edit/main/docs/
+
+strict: true
+
+theme:
+  name: material
+  icon:
+    logo: material/language-python
+  # Literate-Python type system: grotesk display (extra.css), serif prose,
+  # JetBrains Mono code. Palette is custom-defined in extra.css.
+  font:
+    text: Source Serif 4
+    code: JetBrains Mono
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+    - navigation.footer
+    - navigation.sections
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+
+nav:
+  - Home: index.md
+  - Idioms:
+      - Comprehensions: comprehensions.md
+      - Iteration: iteration.md
+      - Generators: generators.md
+      - Context managers: context-managers.md
+      - EAFP: eafp.md
+      - Records: records.md
+      - Protocols: protocols.md
+      - Pattern matching: pattern-matching.md
+      - Paths: paths.md
+      - Strings: strings.md
+  - Behind the scenes:
+      - The toolchain: toolchain.md

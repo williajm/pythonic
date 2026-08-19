@@ -1,0 +1,18 @@
+# Security-only: `open-pull-requests-limit: 0` disables routine version
+# updates, so Dependabot raises alerts (and PRs) only for security
+# advisories. Routine refreshes — action SHA pins and the uv lockfile —
+# are done by hand under the repo's 7-day supply-chain cooldown
+# (tool.uv.exclude-newer in pyproject.toml), keeping that judgement human.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0

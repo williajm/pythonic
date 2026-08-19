@@ -1,0 +1,129 @@
+[project]
+name = "pythonic"
+version = "0.1.0"
+description = "What makes Python great: honest, tested examples of pythonic code."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "James Williams" }]
+requires-python = ">=3.14"
+keywords = ["pythonic", "idioms", "education", "best-practices"]
+# No License :: classifier — PEP 639: the SPDX expression above is the
+# license metadata, and mixing it with license classifiers is deprecated.
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Education",
+    "Typing :: Typed",
+    # This is a teaching repository, not a library: block accidental uploads.
+    "Private :: Do Not Upload",
+]
+# Zero runtime dependencies, on purpose: everything the examples teach is
+# in the standard library. That is part of the lesson.
+dependencies = []
+
+[project.urls]
+Homepage = "https://williajm.github.io/pythonic/"
+Repository = "https://github.com/williajm/pythonic"
+Issues = "https://github.com/williajm/pythonic/issues"
+
+[dependency-groups]
+dev = [
+    "hypothesis",
+    "mypy",
+    "pip-audit",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+docs = [
+    "mkdocs-material",
+]
+
+[build-system]
+requires = ["uv_build>=0.12,<0.14"]
+build-backend = "uv_build"
+
+# --- uv ---------------------------------------------------------------------
+[tool.uv]
+# Supply-chain cooldown: resolution ignores anything published to PyPI in
+# the last 7 days (rolling), so a freshly poisoned release can't reach the
+# lockfile the day it lands. Declared here so CI and contributors resolve
+# identically without machine-level configuration.
+exclude-newer = "P7D"
+
+# PyPI is the ONLY permitted index (supply-chain policy).
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true
+
+# --- ruff -------------------------------------------------------------------
+[tool.ruff]
+src = ["src", "tests"]
+# The docs' fenced "python" blocks hold pymdownx snippet directives
+# (--8<--), not Python — ruff's markdown formatting would mangle them.
+extend-exclude = ["docs"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812", # Redundant with (and conflicts with) the ruff formatter.
+    "ISC001", # Redundant with (and conflicts with) the ruff formatter.
+    "CPY001", # No per-file copyright headers; repository-level licensing applies.
+    "TC003",  # TYPE_CHECKING blocks would clutter the teaching snippets the docs embed.
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+# The deliberately unpythonic counter-examples in src/ carry targeted inline
+# `noqa` grants at the exact lines that earned them — the fact that ruff
+# flags those patterns is itself part of the lesson. No file-wide grants.
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101",    # pytest tests use bare assert by design.
+    "PLR2004", # Literal expected values in assertions are idiomatic in tests.
+    "INP001",  # tests/ is intentionally not a package (pytest src-layout).
+]
+
+# --- mypy -------------------------------------------------------------------
+[tool.mypy]
+strict = true
+# Not implied by strict: flags code mypy can prove unreachable.
+warn_unreachable = true
+python_version = "3.14"
+files = ["src", "tests"]
+
+# --- pytest / coverage ------------------------------------------------------
+[tool.pytest.ini_options]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=pythonic",
+    "--cov-report=term-missing",
+]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+# Every example in src/ is executed by the test suite — the docs embed this
+# source, so untested lines would mean the site shows unverified claims.
+fail_under = 100
+exclude_also = [
+    # Protocol method bodies are structural declarations, never executed.
+    '^\s*\.\.\.$',
+    # assert_never() lines are unreachable by construction (mypy proves it).
+    'assert_never\(',
+    'if TYPE_CHECKING:',
+]

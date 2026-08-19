@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# CI audit artifact (uv export for pip-audit)
+requirements-audit.txt
