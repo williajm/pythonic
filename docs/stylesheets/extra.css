@@ -118,10 +118,6 @@
   max-width: 36em;
 }
 
-.pyx-hero .md-button {
-  margin: 0.3rem 0.5rem 0 0;
-}
-
 @media screen and (max-width: 44em) {
   .md-typeset .pyx-hero h1 {
     font-size: 1.9rem;

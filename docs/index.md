@@ -13,9 +13,6 @@ hide:
 short chapters of pythonic idioms on Python 3.14, where every code block
 is embedded from source the test suite runs — CI holds this site to 100%
 line-and-branch coverage, so nothing here is hand-waved.</p>
-
-[Start with comprehensions](comprehensions.md){ .md-button .md-button--primary }
-[See how honesty is enforced](toolchain.md){ .md-button }
 </div>
 
 ## What "pythonic" means
